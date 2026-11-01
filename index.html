@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#160d2e">
+<title>حرب الحارة | تطوير ضيف الله الفهمي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#160d2e;--gold:#ffd23f;--red:#ff5d6c;--mint:#2ec4b6;--paper:#fff4d6;--disp:Lalezar,Cairo,Tahoma,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#000;overflow:hidden;overscroll-behavior:none;user-select:none;-webkit-user-select:none;font-family:Cairo,Tahoma,sans-serif;color:var(--paper);touch-action:none}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg)}
+#cv{flex:1;min-height:0;width:100%;object-fit:contain;display:block}
+#ui{position:absolute;inset:0;pointer-events:none}
+.scr{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px;text-align:center;overflow:auto;pointer-events:auto;background:rgba(22,13,46,.72);backdrop-filter:blur(3px)}
+.scr.on{display:flex}
+#menu{background:linear-gradient(rgba(22,13,46,.85),rgba(22,13,46,.1) 40%,rgba(22,13,46,.1) 55%,rgba(22,13,46,.92));backdrop-filter:none;justify-content:space-between;padding-bottom:0}
+.ttl{margin:2vh 0 0;font:400 clamp(56px,16vmin,150px)/.95 var(--disp);color:var(--gold);transform:rotate(-3deg);text-shadow:0 4px 0 var(--red),0 9px 0 #7a1f2b,0 18px 26px rgba(0,0,0,.7);animation:wob 3.4s ease-in-out infinite}
+.ttl span:last-child{color:var(--paper)}
+@keyframes wob{50%{transform:rotate(2deg) scale(1.04)}}
+.tag{margin:0;font:800 clamp(14px,3vmin,22px) Cairo;color:var(--gold);min-height:1.6em;text-shadow:0 2px 0 #000}
+.mn{display:grid;grid-template-columns:repeat(2,auto);gap:12px 16px;margin-top:auto}
+.b{font:400 clamp(18px,3.8vmin,30px) var(--disp);color:var(--bg);background:var(--gold);border:3px solid var(--bg);border-radius:14px;padding:.35em 1.1em;box-shadow:0 6px 0 var(--bg),0 0 0 3px var(--paper);cursor:pointer;min-width:min(42vw,300px);transition:transform .12s}
+.b:hover{transform:translateY(-2px) rotate(-1.5deg)}.b:active{transform:translateY(4px);box-shadow:0 2px 0 var(--bg),0 0 0 3px var(--paper)}
+.b:focus-visible,.cd:focus-visible{outline:4px solid var(--mint);outline-offset:3px}
+.b.g{background:var(--mint)}.b.r{background:var(--red)}.b.s{min-width:0;font-size:clamp(16px,3vmin,22px)}
+.dev{margin:14px 0 8px;font:400 clamp(18px,3.6vmin,28px) var(--disp);background:var(--paper);color:var(--bg);padding:.1em .9em;border-radius:8px;transform:rotate(-1.5deg);box-shadow:0 4px 0 var(--red)}
+.tk{width:calc(100% + 24px);margin:0 -12px;overflow:hidden;white-space:nowrap;background:var(--red);color:#fff;font:800 clamp(13px,2.6vmin,18px) Cairo;padding:5px 0;border-top:3px solid var(--bg)}
+.tk span{display:inline-block;animation:tk 38s linear infinite}
+@keyframes tk{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+h2{margin:0;font:400 clamp(26px,6vmin,46px) var(--disp);color:var(--gold);text-shadow:0 3px 0 #000}
+#gr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:min(96vw,780px)}
+.cd{background:rgba(255,244,214,.1);border:3px solid rgba(255,244,214,.35);border-radius:14px;padding:6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .12s}
+.cd:hover,.cd:focus-visible{border-color:var(--gold);background:rgba(255,210,63,.2);transform:translateY(-3px)}
+.cd canvas{width:100%;height:clamp(60px,18vh,150px);object-fit:contain}
+.cd b{font:400 clamp(13px,2.6vmin,20px) var(--disp);color:var(--gold)}
+.cd small{font-size:clamp(9px,1.7vmin,12px);line-height:1.3;min-height:2.6em}
+.st{display:flex;gap:4px;width:100%;font-size:clamp(9px,1.8vmin,12px)}
+.st span{flex:1;display:flex;align-items:center;gap:2px}.st i{display:block;height:6px;background:var(--mint);border-radius:3px}
+#inf{min-height:1.8em;font-weight:800;color:var(--paper)}
+#sg{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;width:min(96vw,780px)}
+.sg{width:clamp(96px,28vw,180px);aspect-ratio:3/2;background-size:cover;background-position:center;border:3px solid var(--paper);border-radius:12px;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding:0;overflow:hidden;transition:transform .12s}
+.sg:hover{transform:scale(1.06) rotate(-1deg);border-color:var(--gold)}
+.sg span{width:100%;background:rgba(22,13,46,.85);font:400 clamp(12px,2.4vmin,18px) var(--disp);color:var(--paper);padding:2px}
+.pn{background:rgba(22,13,46,.94);border:3px solid var(--paper);border-radius:16px;padding:12px 18px;width:min(94vw,640px);text-align:right;line-height:1.75;font-size:clamp(13px,2.6vmin,17px)}
+.pn kbd{background:var(--gold);color:var(--bg);border-radius:5px;padding:0 6px;font:800 .9em Cairo;margin:0 2px}
+#tc{display:none;direction:ltr;justify-content:space-between;align-items:flex-end;padding:8px 14px calc(8px + env(safe-area-inset-bottom));gap:10px;touch-action:none}
+body.touch.play #tc{display:flex}
+.pad{display:grid;gap:10px}.pad.dir{grid-template-columns:repeat(3,auto)}.pad.ac{grid-template-columns:repeat(2,auto)}
+#tc b,#tc button{display:grid;place-items:center;width:clamp(58px,17vmin,88px);height:clamp(58px,17vmin,88px);border-radius:50%;background:rgba(255,244,214,.2);border:3px solid rgba(255,244,214,.7);font:normal 400 clamp(24px,7vmin,38px) sans-serif;color:#fff;touch-action:none}
+#tc b.dn{background:rgba(255,210,63,.75)}
+[data-k=u]{grid-area:1/2}[data-k=l]{grid-area:2/1}[data-k=d]{grid-area:2/2}[data-k=r]{grid-area:2/3}[data-k=s]{grid-area:1/1}[data-k=a]{grid-area:2/2}
+#pb{width:clamp(40px,10vmin,56px)!important;height:clamp(40px,10vmin,56px)!important;font-size:20px!important}
+@media(orientation:landscape){#tc{position:absolute;left:0;right:0;bottom:0;pointer-events:none}#tc b,#tc button{pointer-events:auto}}
+@media(max-width:560px){.mn{grid-template-columns:1fr}.b{min-width:70vw}#gr{grid-template-columns:repeat(4,1fr);gap:5px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#ld{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg);font:400 32px var(--disp);color:var(--gold);z-index:9}
+
+#gr{grid-template-columns:repeat(5,minmax(0,1fr))!important;width:min(97vw,900px)!important}
+.pf{outline:4px solid var(--mint);outline-offset:3px;transform:scale(1.06)}
+input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;border:3px solid var(--bg);border-radius:12px;padding:.3em;background:var(--paper);color:var(--bg);user-select:text;-webkit-user-select:text;touch-action:auto}
+.row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.code{font:400 clamp(48px,14vmin,110px)/1 var(--disp);color:var(--gold);letter-spacing:.1em;text-shadow:0 4px 0 var(--red)}
+#toast{position:absolute;top:calc(10px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-150%);background:var(--gold);color:var(--bg);font:800 16px Cairo;padding:6px 16px;border-radius:20px;border:3px solid var(--bg);transition:transform .25s;z-index:8;pointer-events:none}
+#toast.on{transform:translate(-50%,0)}
+#over.g [data-a=again],#over.ol [data-a=rsel]{display:none}
+#over.g::after{content:'بانتظار المضيف يبدأ جولة جديدة…';font-weight:800}
+[data-k=h]{grid-area:2/1}[data-k=s]{grid-area:1/2}
+@media(max-height:480px){.ttl{font-size:14vmin}.dev{margin:4px 0}.mn{gap:8px 12px}.b{padding:.2em .9em}}
+@media(max-width:560px){#gr{gap:4px!important}.cd small{display:none}}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="cv"></canvas>
+<div id="tc">
+ <div class="pad dir"><b data-k="u">⤒</b><b data-k="l">◀</b><b data-k="d">🛡</b><b data-k="r">▶</b></div>
+ <button id="pb" aria-label="إيقاف مؤقت">⏸</button>
+ <div class="pad ac"><b data-k="s">⚡</b><b data-k="h">💨</b><b data-k="a">👊</b></div>
+</div>
+<div id="ui">
+ <section id="menu" class="scr">
+  <h1 class="ttl"><span>حرب</span> <span>الحارة</span></h1>
+  <p class="tag" id="tag"></p>
+  <nav class="mn">
+   <button class="b g" data-a="1p">👊 قتال ضد الكمبيوتر</button>
+   <button class="b r" data-a="2p">🤼 لاعبين اثنين</button>
+   <button class="b" data-a="lv" id="lvb">🔥 الصعوبة: عادي</button>
+   <button class="b" data-a="room">🌐 أونلاين برقم غرفة</button>
+   <button class="b" data-a="how">❓ طريقة اللعب</button>
+   <button class="b" data-a="snd">🔊 الصوت</button>
+  </nav>
+  <div class="dev">🛠 تطوير: ضيف الله الفهمي</div>
+  <div class="tk"><span>عاجل: أبو الطلبات يطلب من خصمه تقييم ٥ نجوم قبل الضربة القاضية ★ أبو كيس: الدفع كاش فقط… والضرب بالدين ★ الجدة أم الشنطة: ما فيه أحد يضرب مرة وهي واقفة ★ الشيخ أبو عصا: في أيامنا الضرب كان بأدب ★ أبو ضرغام: ما انهزّيت إلا من الجوع ★ تنبيه: أي تشابه مع أشخاص حقيقيين مقصود 😂</span></div>
+ </section>
+ <section id="how" class="scr">
+  <h2>طريقة اللعب</h2>
+  <div class="pn">
+   <b>اللاعب الأول:</b> <kbd>A</kbd><kbd>D</kbd> حركة · <kbd>W</kbd> قفز (اضغط مرتين بالهوا) · <kbd>S</kbd> صدّ · <kbd>F</kbd> ضرب · <kbd>G</kbd> خاصة · <kbd>Shift</kbd> اندفاع<br>
+   <b>اللاعب الثاني:</b> الأسهم · <kbd>K</kbd> ضرب · <kbd>L</kbd> خاصة · <kbd>;</kbd> اندفاع<br>
+   <b>يد التحكم 🎮:</b> عصا/أسهم حركة · <kbd>A</kbd> قفز · <kbd>X</kbd> ضرب · <kbd>Y</kbd> خاصة · <kbd>LB</kbd> صدّ · <kbd>RB</kbd> اندفاع · <kbd>Start</kbd> إيقاف<br>
+   <b>الجوال:</b> أزرار على الشاشة · اضغط مرتين على السهم للاندفاع 💨<br>
+   <b>الجري 🏃:</b> كمّل بنفس الاتجاه وتتسارع (سبرنت) · الضرب وانت تجري أقوى · الفرملة المفاجئة تنزلق · الصدمة تدفع الخصم · ↓ بالهوا = سحق!<br>
+   الخاصة تحتاج ⚡ نصف الشريط الأزرق. <b>وكل مقاتل عنده ضربة سرية 🤫</b> — املأ الشريط كامل (★) واصدّ وانت تضغط الخاصة!<br>
+   الفوز بجولتين من ثلاث · <kbd>Esc</kbd> إيقاف · <kbd>M</kbd> الصوت
+  </div>
+  <button class="b" data-a="back">رجوع</button>
+ </section>
+ <section id="sel" class="scr">
+  <h2 id="sh">اختر مقاتلك</h2>
+  <div id="gr"></div>
+  <div id="inf"></div>
+  <button class="b s" data-a="back">رجوع</button>
+ </section>
+ <section id="stg" class="scr">
+  <h2>اختر ساحة المعركة</h2>
+  <div id="sg"></div>
+  <button class="b s" data-a="rsel">رجوع</button>
+ </section>
+ <section id="room" class="scr">
+  <h2>🌐 العب مع خويّك أونلاين</h2>
+  <div class="pn" style="text-align:center"><div id="rs">أنشئ غرفة أو ادخل برقم غرفة خويّك</div><div id="rc" class="code"></div>
+   <div id="rsh" hidden><button class="b s" data-a="cp">📋 انسخ الرابط</button> <button class="b s" data-a="shr">📤 شارك</button></div></div>
+  <div class="row"><button class="b g" data-a="mk">➕ أنشئ غرفة</button></div>
+  <div class="row"><input id="rin" inputmode="numeric" maxlength="4" placeholder="رقم الغرفة" aria-label="رقم الغرفة"><button class="b" data-a="jn">🚪 ادخل</button></div>
+  <button class="b s" data-a="rback">رجوع</button>
+ </section>
+ <section id="wait" class="scr"><h2 id="wt"></h2><button class="b r s" data-a="quit">طلوع</button></section>
+ <section id="pause" class="scr"><h2>إيقاف مؤقت</h2><button class="b g" data-a="resume">كمّل القتال</button><button class="b" data-a="snd">🔊 الصوت</button><button class="b r" data-a="quit">القائمة الرئيسية</button></section>
+ <section id="over" class="scr"><h2 id="ot"></h2><div class="pn" id="oq" style="text-align:center"></div><button class="b g" data-a="again">🔁 جولة ثانية</button><button class="b" data-a="rsel">🎭 غيّر المقاتل</button><button class="b r" data-a="quit">القائمة الرئيسية</button></section>
+</div>
+<div id="toast"></div>
+<div id="ld">جاري تجهيز الحارة…</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="assets/data.js"></script>
+<script src="audio.js"></script>
+<script src="net.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

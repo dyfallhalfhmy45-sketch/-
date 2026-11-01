@@ -58,15 +58,15 @@ body.touch.play #tc{display:flex}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 #ld{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg);font:400 32px var(--disp);color:var(--gold);z-index:9}
 
-#gr{grid-template-columns:repeat(5,minmax(0,1fr))!important;width:min(97vw,900px)!important}
+#gr{grid-template-columns:repeat(auto-fill,minmax(clamp(88px,14vw,128px),1fr))!important;width:min(98vw,1000px)!important}
 .pf{outline:4px solid var(--mint);outline-offset:3px;transform:scale(1.06)}
 input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;border:3px solid var(--bg);border-radius:12px;padding:.3em;background:var(--paper);color:var(--bg);user-select:text;-webkit-user-select:text;touch-action:auto}
 .row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
 .code{font:400 clamp(48px,14vmin,110px)/1 var(--disp);color:var(--gold);letter-spacing:.1em;text-shadow:0 4px 0 var(--red)}
 #toast{position:absolute;top:calc(10px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-150%);background:var(--gold);color:var(--bg);font:800 16px Cairo;padding:6px 16px;border-radius:20px;border:3px solid var(--bg);transition:transform .25s;z-index:8;pointer-events:none}
 #toast.on{transform:translate(-50%,0)}
-#over.g [data-a=again],#over.ol [data-a=rsel]{display:none}
-#over.g::after{content:'بانتظار المضيف يبدأ جولة جديدة…';font-weight:800}
+#shw{width:min(80vw,460px);animation:wob 2.4s ease-in-out infinite}
+.scr:not(#menu){justify-content:flex-start}.scr:not(#menu)>:first-child{margin-top:auto}.scr:not(#menu)>:last-child{margin-bottom:auto}
 [data-k=h]{grid-area:2/1}[data-k=s]{grid-area:1/2}
 @media(max-height:480px){.ttl{font-size:14vmin}.dev{margin:4px 0}.mn{gap:8px 12px}.b{padding:.2em .9em}}
 @media(max-width:560px){#gr{gap:4px!important}.cd small{display:none}}
@@ -104,7 +104,7 @@ input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;bo
    <b>الجوال:</b> أزرار على الشاشة · اضغط مرتين على السهم للاندفاع 💨<br>
    <b>الجري 🏃:</b> كمّل بنفس الاتجاه وتتسارع (سبرنت) · الضرب وانت تجري أقوى · الفرملة المفاجئة تنزلق · الصدمة تدفع الخصم · ↓ بالهوا = سحق!<br>
    الخاصة تحتاج ⚡ نصف الشريط الأزرق. <b>وكل مقاتل عنده ضربة سرية 🤫</b> — املأ الشريط كامل (★) واصدّ وانت تضغط الخاصة!<br>
-   الفوز بجولتين من ثلاث · <kbd>Esc</kbd> إيقاف · <kbd>M</kbd> الصوت
+   الفوز بجولتين من ثلاث · بعد المباراة تختار: جولة ثانية، أو قائمة الشخصيات، أو غيّر الساحة · <kbd>Esc</kbd> إيقاف · <kbd>M</kbd> الصوت
   </div>
   <button class="b" data-a="back">رجوع</button>
  </section>
@@ -129,7 +129,7 @@ input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;bo
  </section>
  <section id="wait" class="scr"><h2 id="wt"></h2><button class="b r s" data-a="quit">طلوع</button></section>
  <section id="pause" class="scr"><h2>إيقاف مؤقت</h2><button class="b g" data-a="resume">كمّل القتال</button><button class="b" data-a="snd">🔊 الصوت</button><button class="b r" data-a="quit">القائمة الرئيسية</button></section>
- <section id="over" class="scr"><h2 id="ot"></h2><div class="pn" id="oq" style="text-align:center"></div><button class="b g" data-a="again">🔁 جولة ثانية</button><button class="b" data-a="rsel">🎭 غيّر المقاتل</button><button class="b r" data-a="quit">القائمة الرئيسية</button></section>
+ <section id="over" class="scr"><img id="shw" src="assets/shawarma.png" alt="تبي شاورمة؟" hidden><h2 id="ot"></h2><div class="pn" id="oq" style="text-align:center"></div><button class="b g" data-a="again">🔁 جولة ثانية</button><button class="b" data-a="rsel">🎭 قائمة الشخصيات</button><button class="b" data-a="stg">🗺️ غيّر الساحة</button><button class="b r" data-a="quit">القائمة الرئيسية</button></section>
 </div>
 <div id="toast"></div>
 <div id="ld">جاري تجهيز الحارة…</div>

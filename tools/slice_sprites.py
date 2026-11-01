@@ -3,7 +3,7 @@ import numpy as np, json, os, sys
 from PIL import Image
 from scipy import ndimage as ndi
 
-SRC = sys.argv[1] if len(sys.argv) > 1 else '/mnt/user-data/uploads/'
+SRC = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].endswith('/') else '/mnt/user-data/uploads/'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets')
 P = 'A_2D_pixel_art_sprite_sheet_for_a_retro_16-bit_'
 SHEETS = {  # id: (file, dilation, target height in game px)

@@ -70,6 +70,16 @@ input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;bo
 [data-k=h]{grid-area:2/1}[data-k=s]{grid-area:1/2}
 @media(max-height:480px){.ttl{font-size:14vmin}.dev{margin:4px 0}.mn{gap:8px 12px}.b{padding:.2em .9em}}
 @media(max-width:560px){#gr{gap:4px!important}.cd small{display:none}}
+
+.wide{grid-column:1/-1}
+.ac{width:min(94vw,300px)}.ac h3{margin:0 0 4px;font:400 28px var(--disp);color:var(--gold)}.ac p{margin:4px 0;font-size:14px;line-height:1.5}
+.lbt{width:min(94vw,640px);max-height:42vh;overflow:auto;text-align:right;padding:6px}
+.lr{display:grid;grid-template-columns:2.4em 1.3fr 1.4fr auto;gap:8px;padding:5px 6px;border-bottom:1px solid rgba(255,244,214,.15);align-items:center;font-size:clamp(13px,2.5vmin,17px)}
+.lr.me{background:rgba(255,210,63,.28);border-radius:8px}.lr span:last-child{font:400 1.2em var(--disp);color:var(--gold)}
+.b.on{outline:3px solid var(--mint);outline-offset:2px}
+select{font:600 clamp(16px,3vmin,22px) Cairo;width:min(80vw,320px);padding:.35em;border-radius:12px;border:3px solid var(--bg);background:var(--paper);color:var(--bg);touch-action:auto}
+.err{color:var(--red);font-weight:800;min-height:1.5em}
+#as{font-size:clamp(52px,12vmin,100px)}
 </style>
 </head>
 <body>
@@ -88,6 +98,7 @@ input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;bo
    <button class="b g" data-a="1p">👊 قتال ضد الكمبيوتر</button>
    <button class="b r" data-a="2p">🤼 لاعبين اثنين</button>
    <button class="b" data-a="lv" id="lvb">🔥 الصعوبة: عادي</button>
+   <button class="b r wide" data-a="arcade">🕹️ الأركيد · تصنيف عالمي 🌍</button>
    <button class="b" data-a="room">🌐 أونلاين برقم غرفة</button>
    <button class="b" data-a="how">❓ طريقة اللعب</button>
    <button class="b" data-a="snd">🔊 الصوت</button>
@@ -103,6 +114,7 @@ input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;bo
    <b>يد التحكم 🎮:</b> عصا/أسهم حركة · <kbd>A</kbd> قفز · <kbd>X</kbd> ضرب · <kbd>Y</kbd> خاصة · <kbd>LB</kbd> صدّ · <kbd>RB</kbd> اندفاع · <kbd>Start</kbd> إيقاف<br>
    <b>الجوال:</b> أزرار على الشاشة · اضغط مرتين على السهم للاندفاع 💨<br>
    <b>الجري 🏃:</b> كمّل بنفس الاتجاه وتتسارع (سبرنت) · الضرب وانت تجري أقوى · الفرملة المفاجئة تنزلق · الصدمة تدفع الخصم · ↓ بالهوا = سحق!<br>
+   <b>الأركيد 🕹️:</b> تفادي القنابل (اجمع الذهب، اضرب القنبلة بالضرب) وموجات القتال (أعداء أكثر كل جولة) — ولكل لعبة تصنيف خاص حسب اسمك ودولتك<br>
    الخاصة تحتاج ⚡ نصف الشريط الأزرق. <b>وكل مقاتل عنده ضربة سرية 🤫</b> — املأ الشريط كامل (★) واصدّ وانت تضغط الخاصة!<br>
    الفوز بجولتين من ثلاث · بعد المباراة تختار: جولة ثانية، أو قائمة الشخصيات، أو غيّر الساحة · <kbd>Esc</kbd> إيقاف · <kbd>M</kbd> الصوت
   </div>
@@ -112,12 +124,40 @@ input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;bo
   <h2 id="sh">اختر مقاتلك</h2>
   <div id="gr"></div>
   <div id="inf"></div>
-  <button class="b s" data-a="back">رجوع</button>
+  <button class="b s" data-a="sback">رجوع</button>
  </section>
  <section id="stg" class="scr">
   <h2>اختر ساحة المعركة</h2>
   <div id="sg"></div>
   <button class="b s" data-a="rsel">رجوع</button>
+ </section>
+ <section id="arc" class="scr">
+  <h2>🕹️ الأركيد</h2>
+  <div class="row">
+   <div class="pn ac"><h3>💣 تفادي القنابل</h3><p>تفادى القنابل واجمع الذهب… أعلى نقاط تكسب! اضرب القنبلة تطير بعيد.</p><small id="best_bomb"></small>
+    <div class="row"><button class="b g s" data-a="play" data-g="bomb">▶ العب</button><button class="b s" data-a="lbo" data-g="bomb">🏆 التصنيف</button></div></div>
+   <div class="pn ac"><h3>⚔️ موجات القتال</h3><p>خصم… ثم خصمين… ثم ثلاثة! كل جولة أصعب. كم جولة تصمد؟</p><small id="best_waves"></small>
+    <div class="row"><button class="b g s" data-a="play" data-g="waves">▶ العب</button><button class="b s" data-a="lbo" data-g="waves">🏆 التصنيف</button></div></div>
+  </div>
+  <button class="b s" data-a="back">رجوع</button>
+ </section>
+ <section id="prof" class="scr">
+  <h2 id="pt">من أنت؟</h2>
+  <div class="pn" style="text-align:center"><label>اسمك<br><input id="pn" maxlength="16" placeholder="اكتب اسمك" autocomplete="off"></label><br><br>
+   <label>دولتك<br><select id="pc"></select></label><div id="pe" class="err"></div><small>اسمك ودولتك يظهران في التصنيف</small></div>
+  <button class="b g" data-a="pgo">▶ ابدأ</button><button class="b s" data-a="arc">رجوع</button>
+ </section>
+ <section id="lbs" class="scr">
+  <h2>🏆 التصنيف</h2>
+  <div class="row"><button class="b s" data-a="lbg" data-g="bomb">💣 تفادي القنابل</button><button class="b s" data-a="lbg" data-g="waves">⚔️ موجات القتال</button></div>
+  <div class="row"><button class="b s" data-a="lbv" data-v="p">👤 اللاعبين</button><button class="b s" data-a="lbv" data-v="c">🌍 الدول</button></div>
+  <div id="lbst"></div><div id="lbt" class="pn lbt"></div>
+  <button class="b s" data-a="arc">رجوع</button>
+ </section>
+ <section id="aover" class="scr">
+  <h2 id="at"></h2><div id="as" class="code"></div><div id="ad"></div><div id="ar" class="pn"></div><div id="al" class="pn lbt"></div>
+  <div class="row"><button class="b g s" data-a="aagain">🔁 العب مرة ثانية</button><button class="b s" data-a="rsel">🎭 غيّر الشخصية</button><button class="b s" data-a="stg">🗺️ غيّر الساحة</button></div>
+  <div class="row"><button class="b s" data-a="alb">🏆 التصنيف</button><button class="b r s" data-a="arc">قائمة الأركيد</button></div>
  </section>
  <section id="room" class="scr">
   <h2>🌐 العب مع خويّك أونلاين</h2>
@@ -135,9 +175,13 @@ input{font:400 clamp(20px,4vmin,30px) var(--disp);width:7em;text-align:center;bo
 <div id="ld">جاري تجهيز الحارة…</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="config.js"></script>
+<script src="countries.js"></script>
+<script src="lb.js"></script>
 <script src="assets/data.js"></script>
 <script src="audio.js"></script>
 <script src="net.js"></script>
 <script src="game.js"></script>
+<script src="arcade.js"></script>
 </body>
 </html>

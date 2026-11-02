@@ -32,6 +32,16 @@ CFG = {
                map=dict(idle=[(0,i) for i in range(6)],walk=[(1,i) for i in range(6)],atk=[(2,i) for i in range(5)])),
  'sling': dict(f=11,it=4,tgt=250,cuts=[],
                map=dict(idle=[(0,i) for i in range(7)],walk=[(1,i) for i in range(7)],atk=[(2,i) for i in range(5)])),
+ 'graf':  dict(f=29,it=4,tgt=275,ncols={0:6,1:7,2:7},cuts=[(40,78,38,82),(268,302,38,82),(468,502,38,82),(500,538,30,1248)],
+               map=dict(idle=[(0,i) for i in range(5)],walk=[(1,i) for i in range(6)],atk=[(2,i) for i in range(6)])),
+ 'sage':  dict(f=28,it=4,tgt=290,ns=1,ncols={0:9,1:9,2:6},cuts=[(535,578,30,1248)],
+               map=dict(idle=[(0,i) for i in range(9)],walk=[(1,i) for i in range(9)],atk=[(2,i) for i in range(6)])),
+ 'dates': dict(f=27,it=4,tgt=290,ns=1,cuts=[(560,722,1160,1248),(735,832,0,1248)],
+               map=dict(idle=[(0,i) for i in range(4)],walk=[(0,i) for i in range(4)],atk=[(2,i) for i in range(6)])),
+ 'bedu':  dict(f=26,it=4,tgt=290,cuts=[(500,538,430,800),(765,812,770,1248)],
+               map=dict(idle=[(0,i) for i in range(5)],walk=[(1,i) for i in range(6)],atk=[(2,i) for i in range(5)])),
+ 'coin':  dict(f=30,it=13,tgt=62,minh=40,cuts=[],
+               map=dict(spin=[(0,i) for i in range(5)],flat=[(1,0),(1,1)],pile=[(1,2)],burst=[(2,3),(2,4),(2,5)])),
 }
 
 def shadow_off(rgb, fg):
@@ -91,7 +101,7 @@ def build(name, c, analyze=False):
         for (r, i), k in zip(lst, sel[a]):
             crop = recolor_crop(k['crop'], rule_t2r) if (r, i) in rcmap else k['crop']
             frames.append((a, crop, k['m']))
-    hs = [m.shape[0] for a, _, m in frames if a in ('idle', 'walk')]
+    hs = [m.shape[0] for a, _, m in frames if a in ('idle', 'walk', 'spin')]
     s = round(c['tgt'] / float(np.median(hs)), 4)
     H = max(m.shape[0] for _, _, m in frames); Wt = sum(m.shape[1] + 2 for _, _, m in frames)
     atlas = np.zeros((H, Wt, 4), np.uint8); x = 0; data = {}
@@ -108,6 +118,17 @@ def save_png(arr, path):
     im = Image.fromarray(arr)
     q = im.quantize(256, method=Image.FASTOCTREE, dither=Image.NONE)
     q.save(path, optimize=True)
+
+def bomb():
+    im = np.array(Image.open(SRC + 'لقطة_شاشة_1-11-2026_181918_www_bing_com.jpeg').convert('RGB')).astype(int)
+    bg = np.abs(im - im[3, 3]).sum(2) < 40
+    lab, _ = ndi.label(bg)
+    keep = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
+    fg = ~np.isin(lab, list(keep))
+    ys, xs = np.nonzero(fg); y0, y1, x0, x1 = ys.min(), ys.max()+1, xs.min(), xs.max()+1
+    a = np.dstack([im[y0:y1, x0:x1].astype(np.uint8), (fg[y0:y1, x0:x1] * 255).astype(np.uint8)])
+    Image.fromarray(a).save(f'{OUT}/bomb.png', optimize=True)
+    return {'img': 'assets/bomb.png', 'w': int(x1-x0), 'h': int(y1-y0)}
 
 def banner():
     rgb = np.array(Image.open(SRC + 'A_2D_pixel.jpg').convert('RGB')).astype(int)
@@ -127,5 +148,5 @@ if __name__ == '__main__':
         for fn in os.listdir(OUT + '/chars'):       # shrink every atlas (palette PNG)
             p = f'{OUT}/chars/{fn}'; im = Image.open(p)
             if im.mode == 'RGBA': save_png(np.array(im), p)
-        banner()
+        banner(); FR['bomb'] = bomb()
         open(dp, 'w').write('const FR=' + json.dumps(FR, separators=(',', ':')) + ';\n')
